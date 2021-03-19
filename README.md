@@ -14,7 +14,7 @@ wpcs.xyz is a website feturing a jQuery terminal. This website is an online term
 Wanna add something to the live site at https://wpcs.xyz? Make a pull request and see the change go live if its accepted!
 <br>
 ## Contribution Rules
-For your contribution to be accepted, please follow the below rules.
+For your contribution to be accepted, please follow the rules below:
 1. No server side functions. There will be absolutly no serverside processing, and scripts utilizing server side processing will be rejected.
 2. No malicous or questionable code.
 3. No external librarys, you must be able to acomplish your task with jQuery and JS.
