@@ -51,6 +51,9 @@ jQuery(function ($) {
     image: function (url) {
       return fetch_image(url);
     },
+    save: function (url, name) {
+      save(this, url, name)
+    },
     github: function () {
       github(this);
     },
@@ -65,7 +68,7 @@ jQuery(function ($) {
     greetings: acsii_logo,
     name: 'main-term',
     autocompleteMenu: true,
-    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about'],
+    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save'],
     prompt: 'local@wpcs.xyz $ '
   });
 });
@@ -128,4 +131,19 @@ function parseJS(context, command) {
 function github(context) {
   context.echo("Opening wpcs.xyz repo...");
   window.open(repo_link);
+}
+
+function save(context, url, name){
+  context.echo("Saving resource at: " + url);
+  // let element = document.createElement('a');
+  // element.setAttribute('href', url);
+  // element.setAttribute('download', name);
+  // element.setAttribute("target", "_blank");
+  // element.style.display = 'none';
+  // document.body.appendChild(element);
+  // element.click();
+  // document.body.removeChild(element);
+  $.fileDownload(url)
+    .done(function () { alert('File download a success!'); })
+    .fail(function () { alert('File download failed!'); });
 }
