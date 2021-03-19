@@ -19,5 +19,6 @@ For your contribution to be accepted, please follow the below rules.
 2. No malicous or questionable code.
 3. No external librarys, you must be able to acomplish your task with jQuery and JS.
 4. No explicit modifacations to any files, your code must be self sufficient. Therfore, if your code relys on a html element, it must create said element, rather than relying on it already existing.
-
+<br>
 This project is just for fun, therefore accomodations/exceptions may be made on a case by case basis.
+<br>
