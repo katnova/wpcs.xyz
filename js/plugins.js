@@ -47,6 +47,9 @@ jQuery(function($, undefined) {
     },
     help: function () {
       man(this);
+    },
+    image: function (url) {
+      return fetch_image(url);
     }
    }, {
     greetings: '           (         (        )     )    )  \n' +
@@ -71,6 +74,15 @@ jQuery(function($, undefined) {
 
 function man(context){
   context.echo("\nCommands: " +
-    "\n 'js <args>' : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();" +
+    "\n 'js <args>'   : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();." +
+    "\n 'image <url>' : Fetch a image from a URL and display it in the console."  +
     "\n");
+}
+
+function fetch_image(url) {
+  return new Promise(function(resolve, reject) {
+    const img = $('<img src="' + url + '"/>');
+    img.on('load', () => resolve(img));
+    img.on('error', reject);
+  });
 }
