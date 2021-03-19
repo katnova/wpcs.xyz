@@ -1,5 +1,14 @@
 // Avoid `console` errors in browsers that lack a console.
 const repo_link = "https://github.com/Abstract-Programming/wpcs.xyz";
+const acsii_logo = '           (         (        )     )    )  \n' +
+  ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
+  ' )\\))(   \'(()/(  )\\ (()/(  )\\()) )\\()))\\()) \n' +
+  '((_)()\\ )  /(_)|((_) /(_))((_)\\ ((_)\\((_)\\  \n' +
+  '_(())\\_)()(_)) )\\___(_))  __((_)_ ((_)_((_) \n' +
+  '\\ \\((_)/ /| _ ((/ __/ __| \\ \\/ | \\ / /_  /  \n' +
+  ' \\ \\/\\/ / |  _/| (__\\__ \\_ >  < \\ V / / /   \n' +
+  '  \\_/\\_/  |_|   \\___|___(_)_/\\_\\ |_| /___|  \n' +
+  '                                            \n';
 (function () {
   let method;
   let noop = function () {
@@ -21,17 +30,7 @@ const repo_link = "https://github.com/Abstract-Programming/wpcs.xyz";
       console[method] = noop;
     }
   }
-  console.log('           (         (        )     )    )  \n' +
-    ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
-    ' )\\))(   \'(()/(  )\\ (()/(  )\\()) )\\()))\\()) \n' +
-    '((_)()\\ )  /(_)|((_) /(_))((_)\\ ((_)\\((_)\\  \n' +
-    '_(())\\_)()(_)) )\\___(_))  __((_)_ ((_)_((_) \n' +
-    '\\ \\((_)/ /| _ ((/ __/ __| \\ \\/ | \\ / /_  /  \n' +
-    ' \\ \\/\\/ / |  _/| (__\\__ \\_ >  < \\ V / / /   \n' +
-    '  \\_/\\_/  |_|   \\___|___(_)_/\\_\\ |_| /___|  \n' +
-    '                                            \n' +
-    'Someones poking around in the code, maybe go check out the GitHub repo?\n' +
-    repo_link);
+  console.log(acsii_logo + 'Someones poking around in the code, maybe go check out the GitHub repo?\n' + repo_link);
 }());
 
 // Place any jQuery/helper plugins in here.
@@ -63,16 +62,7 @@ jQuery(function ($) {
     }
   }, {
     //Config
-    greetings: '           (         (        )     )    )  \n' +
-      ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
-      ' )\\))(   \'(()/(  )\\ (()/(  )\\()) )\\()))\\()) \n' +
-      '((_)()\\ )  /(_)|((_) /(_))((_)\\ ((_)\\((_)\\  \n' +
-      '_(())\\_)()(_)) )\\___(_))  __((_)_ ((_)_((_) \n' +
-      '\\ \\((_)/ /| _ ((/ __/ __| \\ \\/ | \\ / /_  /  \n' +
-      ' \\ \\/\\/ / |  _/| (__\\__ \\_ >  < \\ V / / /   \n' +
-      '  \\_/\\_/  |_|   \\___|___(_)_/\\_\\ |_| /___|  \n' +
-      '                                            \n' +
-      '\n',
+    greetings: acsii_logo,
     name: 'main-term',
     autocompleteMenu: true,
     completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about'],
