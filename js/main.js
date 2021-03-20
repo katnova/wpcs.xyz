@@ -12,6 +12,7 @@ async function loadScript(url, context) {
     stop(context, spinner["dots"]);
     if (module_loading_messages)
       context.echo("[wpcs] " + green("Loaded module, running..."));
+    modules_fetched++;
     run(context);
     document.getElementById(url).remove();
   });
@@ -80,6 +81,20 @@ function ifUrlExist(url, callback) {
   request.send('');
 };
 
+/**
+ * Build a module resource URL
+ * @param module
+ * @returns {string}
+ */
+
 function buildModuleURL(module) {
-  return module_repo + module + module_language;
+  return module_repo + module_repo_dir + module + module_language;
 }
+
+/**
+ ****************************
+ *       Get latency        *
+ ****************************
+ */
+
+

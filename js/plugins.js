@@ -1,6 +1,3 @@
-// Avoid `console` errors in browsers that lack a console.
-
-
 (function () {
   let method;
   let noop = function () {
@@ -23,6 +20,7 @@
     }
   }
   console.log(acsii_logo + 'Someones poking around in the code, maybe go check out the GitHub repo?\n' + repo_link);
+  refreshPings();
 }());
 
 // Place any jQuery/helper plugins in here.
@@ -103,9 +101,29 @@ function man(context) {
     "\n");
 }
 
+/**
+ * Show session information
+ * @param context terminal
+ */
+
 function info(context) {
-  context.echo("\nAbout wpcs.xyz" +
-    "\nWho knows, its to early to tell what this will turn into." +
+  refreshPings();
+  context.echo(
+    "\nSession information: " +
+    "\n--Remotes:" +
+    "\n\t---Host" +
+    "\n\twpcs.xyz ping    : " + wpcs_ping +
+    "\n\n\t---Module Repository" +
+    "\n\tModules repo     : " + module_repo +
+    "\n\tModules dir      : " + module_repo_dir +
+    "\n\trepo ping        : " + storage_wpcs_ping +
+    "\n\n\t---Module Registry" +
+    "\n\tModules registry : " + module_registry +
+    "\n\tregistry dir     : " + module_registry_dir +
+    "\n\tregistry ping    : " + api_wpcs_ping +
+    "\n\n--Local: " +
+    "\n\tModules lang     : " + module_language +
+    "\n\tModules fetched  : " + modules_fetched +
     "\n");
 }
 
@@ -123,39 +141,51 @@ function fetch_image(url) {
   });
 }
 
-
 /**
- * functions
+ * Parse literal JS with window.eval();
+ * @param context termnial for output.
+ * @param command literal JS to parse.
  */
-
 function parseJS(context, command) {
-  if(debug) console.debug(log_level_debug + "parseJS: eval(" + command + ")");
+  if (debug) console.debug(log_level_debug + "parseJS: eval(" + command + ")");
   if (command !== '') {
     try {
       let result = window.eval(command);
-      if(debug) console.debug(log_level_debug + "parseJS: result of eval(" + command + ") -> " + new String(result));
+      if (debug) console.debug(log_level_debug + "parseJS: result of eval(" + command + ") -> " + new String(result));
       if (result !== undefined) context.echo(new String(result));
     } catch (e) {
       context.error(new String(e));
-      if(debug) console.debug(log_level_debug + "parseJS: error on eval(" + command + "), error: " + new String(e));
+      if (debug) console.debug(log_level_debug + "parseJS: error on eval(" + command + "), error: " + new String(e));
     }
   } else {
-    if(debug) console.debug(log_level_debug + "Ignoring blank command...");
+    if (debug) console.debug(log_level_debug + "Ignoring blank command...");
     context.echo('');
   }
 }
+
+/**
+ * Open github reop for wpcs.xyz in a new tab
+ * @param context
+ */
 
 function github(context) {
   context.echo("Opening wpcs.xyz repo...");
   window.open(repo_link);
 }
 
+/**
+ * Change elements in config.js
+ * @param element config option
+ * @param operation boolean operator
+ * @param context terminal context (for term output)
+ */
+
 function config_ctl(element, operation, context) {
   switch (element) {
     case "modules":
       modules_enabled = operation;
       context.echo(log_marker + "modules_enabled was set to " + operation);
-      if(debug) console.debug(log_level_debug + "modules_enabled was set to " + operation)
+      if (debug) console.debug(log_level_debug + "modules_enabled was set to " + operation)
       break;
     case "module_loading_messages":
       module_loading_messages = operation;
@@ -166,7 +196,7 @@ function config_ctl(element, operation, context) {
       if (debug) {
         module_verification = operation;
         context.echo(log_marker + "module_verification was set to " + operation);
-        if(debug) console.debug(log_level_debug + "module_verification was set to " + operation);
+        if (debug) console.debug(log_level_debug + "module_verification was set to " + operation);
       } else context.echo(log_marker + "The module_verification attribute can only be modified in debug mode.")
       break;
     case "debug":
@@ -177,4 +207,29 @@ function config_ctl(element, operation, context) {
     default:
       context.error("[error] '" + element + "' is not a config element.");
   }
+}
+
+/**
+ * Refresh ping information
+ */
+function refreshPings() {
+  const p = new Ping();
+  p.ping(module_repo, function (err, data) {
+    if (err) {
+      console.log("ERR on ping remote: " + module_repo)
+      storage_wpcs_ping = data + "ms with " + err;
+    } else storage_wpcs_ping = data + "ms";
+  });
+  p.ping(module_registry, function (err, data) {
+    if (err) {
+      console.log("ERR on ping remote: " + module_registry)
+      api_wpcs_ping = data + "ms with " + err;
+    } else api_wpcs_ping = data + "ms";
+  });
+  p.ping("https://wpcs.xyz", function (err, data) {
+    if (err) {
+      console.log("ERR on ping remote: https://wpcs.xyz")
+      wpcs_ping = data + "ms with " + err;
+    } else wpcs_ping = data + "ms";
+  });
 }
