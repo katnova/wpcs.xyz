@@ -97,7 +97,7 @@ function man(context) {
     "\n 'js <args>' : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();." +
     "\n 'image <url>' : Fetch a image from a URL and display it in the console." +
     "\n 'load <module>' : Download an run a registered module in browser from the modules server." +
-    "\n [enable/disable] [modules | module_loading_messages | debug] : enable or disable options in the config file. " +
+    "\n '[enable/disable] [modules | module_loading_messages | debug]' : enable or disable options in the config file. " +
     "\n 'about' : Get information about wcps.xyz" +
     "\n 'github' : Open the GitHub repo for wcps.xyz " +
     "\n");
