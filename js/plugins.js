@@ -1,15 +1,6 @@
 // Avoid `console` errors in browsers that lack a console.
 
-const repo_link = "https://github.com/Abstract-Programming/wpcs.xyz";
-const acsii_logo = '           (         (        )     )    )  \n' +
-  ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
-  ' )\\))(   \'(()/(  )\\ (()/(  )\\()) )\\()))\\()) \n' +
-  '((_)()\\ )  /(_)|((_) /(_))((_)\\ ((_)\\((_)\\  \n' +
-  '_(())\\_)()(_)) )\\___(_))  __((_)_ ((_)_((_) \n' +
-  '\\ \\((_)/ /| _ ((/ __/ __| \\ \\/ | \\ / /_  /  \n' +
-  ' \\ \\/\\/ / |  _/| (__\\__ \\_ >  < \\ V / / /   \n' +
-  '  \\_/\\_/  |_|   \\___|___(_)_/\\_\\ |_| /___|  \n' +
-  '                                            \n';
+
 (function () {
   let method;
   let noop = function () {
@@ -64,25 +55,34 @@ jQuery(function ($) {
     about: function () {
       info(this);
     },
+    disable: function (config) {
+      config_ctl(config, false, this);
+    },
+    enable: function (config) {
+      config_ctl(config, true, this);
+    },
     load: function (module) {
-      start(this, spinner.dots);
-      const url = "https://storage.wpcs.xyz/modules/" + module + ".js";
-      ifUrlExist(url, (resu) => {
-        if (resu) {
-          loadScript(url, this).then(r => {
+      if (modules_enabled) {
+        start(this, spinner.dots);
+        const url = buildModuleURL(module);
+        ifUrlExist(url, (resu) => {
+          if (resu) loadScript(url, this).then(r => {
+            if (module_loading_messages)
+              this.echo(log_marker + green("Module unloaded."))
           });
-        }else{
-          stop(this, spinner.dots);
-          this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
-        }
-      });
+          else {
+            stop(this, spinner.dots);
+            this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
+          }
+        });
+      } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
     }
   }, {
     //Config
     greetings: acsii_logo,
     name: 'main-term',
     autocompleteMenu: true,
-    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save'],
+    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save', 'load', 'enable', 'disable', 'modules', 'module_loading_messages'],
     prompt: 'local@wpcs.xyz $ '
   });
 });
@@ -128,17 +128,18 @@ function fetch_image(url) {
  */
 
 function parseJS(context, command) {
-  console.log("Parse JS: " + command);
+  if(debug) console.debug(log_level_debug + "parseJS: eval(" + command + ")");
   if (command !== '') {
     try {
-      var result = window.eval(command);
-      if (result !== undefined) {
-        context.echo(new String(result));
-      }
+      let result = window.eval(command);
+      if(debug) console.debug(log_level_debug + "parseJS: result of eval(" + command + ") -> " + new String(result));
+      if (result !== undefined) context.echo(new String(result));
     } catch (e) {
       context.error(new String(e));
+      if(debug) console.debug(log_level_debug + "parseJS: error on eval(" + command + "), error: " + new String(e));
     }
   } else {
+    if(debug) console.debug(log_level_debug + "Ignoring blank command...");
     context.echo('');
   }
 }
@@ -146,4 +147,33 @@ function parseJS(context, command) {
 function github(context) {
   context.echo("Opening wpcs.xyz repo...");
   window.open(repo_link);
+}
+
+function config_ctl(element, operation, context) {
+  switch (element) {
+    case "modules":
+      modules_enabled = operation;
+      context.echo(log_marker + "modules_enabled was set to " + operation);
+      if(debug) console.debug(log_level_debug + "modules_enabled was set to " + operation)
+      break;
+    case "module_loading_messages":
+      module_loading_messages = operation;
+      context.echo(log_marker + "module_loading_messages was set to " + operation);
+      if (debug) console.debug(log_level_debug + "module_loading_messages was set to " + operation);
+      break;
+    case "module_verification":
+      if (debug) {
+        module_verification = operation;
+        context.echo(log_marker + "module_verification was set to " + operation);
+        if(debug) console.debug(log_level_debug + "module_verification was set to " + operation);
+      } else context.echo(log_marker + "The module_verification attribute can only be modified in debug mode.")
+      break;
+    case "debug":
+      debug = operation;
+      if (operation) context.echo(log_marker + yellow("You have enabled the debug element. Verifications checks have been disabled. (you should only do this if you know what you are doing)"));
+      console.debug(log_level_debug + "Debugging enabled.");
+      break;
+    default:
+      context.error("[error] '" + element + "' is not a config element.");
+  }
 }

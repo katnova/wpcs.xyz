@@ -1417,9 +1417,12 @@ let spinner = {
   }
 };
 let i;
+
 function start(term, spinner) {
+  if (debug) console.debug(log_level_debug + "Started working spinner.");
   animation = true;
   i = 0;
+
   function set() {
     let text = spinner.frames[i++ % spinner.frames.length];
     term.set_prompt("Working " + text);
@@ -1431,11 +1434,12 @@ function start(term, spinner) {
 }
 
 function stop(term, spinner) {
+  if (debug) console.debug(log_level_debug + "Stopped working spinner.");
   // setTimeout(function () {
-    clearInterval(timer);
-    let frame = spinner.frames[i % spinner.frames.length];
-    term.set_prompt('local@wpcs.xyz $ ');
-    animation = false;
-    term.find('.cursor').show();
+  clearInterval(timer);
+  let frame = spinner.frames[i % spinner.frames.length];
+  term.set_prompt('local@wpcs.xyz $ ');
+  animation = false;
+  term.find('.cursor').show();
   // }, 0);
 }
