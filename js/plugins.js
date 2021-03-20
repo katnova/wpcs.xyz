@@ -1,4 +1,5 @@
 // Avoid `console` errors in browsers that lack a console.
+
 const repo_link = "https://github.com/Abstract-Programming/wpcs.xyz";
 const acsii_logo = '           (         (        )     )    )  \n' +
   ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
@@ -62,6 +63,9 @@ jQuery(function ($) {
     },
     about: function () {
       info(this);
+    },
+    load: function (module) {
+      loadScript("https://storage.wpcs.xyz/modules/" + module + ".js", this);
     }
   }, {
     //Config
@@ -131,19 +135,4 @@ function parseJS(context, command) {
 function github(context) {
   context.echo("Opening wpcs.xyz repo...");
   window.open(repo_link);
-}
-
-function save(context, url, name){
-  context.echo("Saving resource at: " + url);
-  // let element = document.createElement('a');
-  // element.setAttribute('href', url);
-  // element.setAttribute('download', name);
-  // element.setAttribute("target", "_blank");
-  // element.style.display = 'none';
-  // document.body.appendChild(element);
-  // element.click();
-  // document.body.removeChild(element);
-  $.fileDownload(url)
-    .done(function () { alert('File download a success!'); })
-    .fail(function () { alert('File download failed!'); });
 }
