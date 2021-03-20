@@ -59,6 +59,9 @@ jQuery(function ($) {
     enable: function (config) {
       config_ctl(config, true, this);
     },
+    reload: function () {
+      window.location.reload(true);
+    },
     load: function (module) {
       if (modules_enabled) {
         start(this, spinner.dots);
