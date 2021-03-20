@@ -65,7 +65,17 @@ jQuery(function ($) {
       info(this);
     },
     load: function (module) {
-      loadScript("https://storage.wpcs.xyz/modules/" + module + ".js", this);
+      start(this, spinner.dots);
+      const url = "https://storage.wpcs.xyz/modules/" + module + ".js";
+      ifUrlExist(url, (resu) => {
+        if (resu) {
+          loadScript(url, this).then(r => {
+          });
+        }else{
+          stop(this, spinner.dots);
+          this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
+        }
+      });
     }
   }, {
     //Config
@@ -84,14 +94,15 @@ jQuery(function ($) {
 
 function man(context) {
   context.echo("\nCommands: " +
-    "\n 'js <args>'   : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();." +
-    "\n 'image <url>' : Fetch a image from a URL and display it in the console." +
-    "\n 'about'       : Get information about wcps.xyz" +
-    "\n 'github'      : Open the GitHub repo for wcps.xyz " +
+    "\n 'js <args>'     : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();." +
+    "\n 'image <url>'   : Fetch a image from a URL and display it in the console." +
+    "\n 'load <module>' : Download an run a registered module in browser from the modules server." +
+    "\n 'about'         : Get information about wcps.xyz" +
+    "\n 'github'        : Open the GitHub repo for wcps.xyz " +
     "\n");
 }
 
-function info(context){
+function info(context) {
   context.echo("\nAbout wpcs.xyz" +
     "\nWho knows, its to early to tell what this will turn into." +
     "\n");

@@ -1,16 +1,34 @@
+let loadedScripts = [];
 /**
  * Download a moduile, then run it.
  * @param url URL of module
  * @param context terminal
  * @param args command arguments
  */
-function loadScript(url, context){
-  fetch(url)
-    .then((response) => response.text())
-    .then((text) => eval(text))
-    .then(() => {
-      run(context);
-    });
+async function loadScript(url, context){
+  await loadExternalScript(url).then(() => {
+    const {dots} = spinner;
+    stop(context, spinner["dots"]);
+    run(context);
+    document.getElementById(url).remove();
+  });
+}
+
+/**
+ * Load an external module
+ * @param src URL of external module
+ * @returns {Promise<unknown>}
+ */
+
+function loadExternalScript(src) {
+  return new Promise((resolve, reject) => {
+    const scriptTag = document.createElement('script');
+    scriptTag.type = 'text/javascript';
+    scriptTag.src = src;
+    scriptTag.id = src;
+    scriptTag.onload = () => resolve();
+    document.body.appendChild(scriptTag);
+  });
 }
 
 /**
@@ -29,3 +47,23 @@ function save(context, url, name){
   element.click();
   document.body.removeChild(element);
 }
+
+function ifUrlExist(url, callback) {
+  let request = new XMLHttpRequest;
+  request.open('GET', url, true);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.setRequestHeader('Accept', '*/*');
+  request.onprogress = function(event) {
+    let status = event.target.status;
+    let statusFirstNumber = (status).toString()[0];
+    switch (statusFirstNumber) {
+      case '2':
+        request.abort();
+        return callback(true);
+      default:
+        request.abort();
+        return callback(false);
+    };
+  };
+  request.send('');
+};
