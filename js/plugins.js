@@ -83,7 +83,7 @@ jQuery(function ($) {
     name: 'main-term',
     autocompleteMenu: true,
     completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save', 'load', 'enable', 'disable', 'modules', 'module_loading_messages'],
-    prompt: 'local@wpcs.xyz $ '
+    prompt: term_prompt
   });
 });
 

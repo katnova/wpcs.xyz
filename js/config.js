@@ -20,3 +20,4 @@ let log_marker = "[wpcs] ";
 const log_level_debug = "[DEBUG] ";
 const log_level_info = "[INFO] ";
 const log_level_warn = "[WARN] ";
+const term_prompt = teal('local@wpcs.xyz $ ');

@@ -1438,7 +1438,7 @@ function stop(term, spinner) {
   // setTimeout(function () {
   clearInterval(timer);
   let frame = spinner.frames[i % spinner.frames.length];
-  term.set_prompt('local@wpcs.xyz $ ');
+  term.set_prompt(term_prompt);
   animation = false;
   term.find('.cursor').show();
   // }, 0);
