@@ -28,3 +28,4 @@ let log_marker = "[wpcs] ";
 let modules_fetched = 0;
 let processing_time = 0.00;
 let wpcs_ping, storage_wpcs_ping, api_wpcs_ping;
+let soft_reload = false;

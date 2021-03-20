@@ -60,16 +60,19 @@ jQuery(function ($) {
       config_ctl(config, true, this);
     },
     reload: function () {
-      window.location.reload(true);
+      window.location.reload(!soft_reload);
     },
     load: function (module) {
       if (modules_enabled) {
         start(this, spinner.dots);
         const url = buildModuleURL(module);
+        const startProcTime = Date.now();
+        if(debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
         ifUrlExist(url, (resu) => {
           if (resu) loadScript(url, this).then(r => {
             if (module_loading_messages)
               this.echo(log_marker + green("Module unloaded."))
+            processing_time += Date.now() - startProcTime;
           });
           else {
             stop(this, spinner.dots);
@@ -79,11 +82,10 @@ jQuery(function ($) {
       } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
     }
   }, {
-    //Config
     greetings: acsii_logo,
     name: 'main-term',
     autocompleteMenu: true,
-    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save', 'load', 'enable', 'disable', 'modules', 'module_loading_messages'],
+    completion: ['man', 'help', 'github', 'js', 'image', 'info', 'about', 'save', 'load', 'enable', 'disable', 'modules', 'module_loading_messages', 'reload'],
     prompt: term_prompt
   });
 });
@@ -98,7 +100,8 @@ function man(context) {
     "\n 'js <args>' : You can attempt to run JS commands, this will parse content after \"js \" using window.eval();." +
     "\n 'image <url>' : Fetch a image from a URL and display it in the console." +
     "\n 'load <module>' : Download an run a registered module in browser from the modules server." +
-    "\n '[enable/disable] [modules | module_loading_messages | debug]' : enable or disable options in the config file. " +
+    "\n '[enable/disable] [modules | module_loading_messages | soft_reload | debug]' : enable or disable options in the config file. " +
+    "\n 'reload' : Reload the page (depends on soft_reload for type)" +
     "\n 'about' : Get information about wcps.xyz" +
     "\n 'github' : Open the GitHub repo for wcps.xyz " +
     "\n");
@@ -118,15 +121,23 @@ function info(context) {
     "\n\twpcs.xyz ping    : " + wpcs_ping +
     "\n\n\t---Module Repository" +
     "\n\tModules repo     : " + module_repo +
-    "\n\tModules dir      : " + module_repo_dir +
+    "\n\trepo dir         : " + module_repo_dir +
     "\n\trepo ping        : " + storage_wpcs_ping +
     "\n\n\t---Module Registry" +
     "\n\tModules registry : " + module_registry +
     "\n\tregistry dir     : " + module_registry_dir +
     "\n\tregistry ping    : " + api_wpcs_ping +
     "\n\n--Local: " +
-    "\n\tModules lang     : " + module_language +
-    "\n\tModules fetched  : " + modules_fetched +
+    "\n\t---Module Stats" +
+    "\n\tModules lang            : " + module_language +
+    "\n\tModules fetched         : " + modules_fetched +
+    "\n\tTotal Processing Time   : " + (processing_time * 1000) + "s" +
+    "\n\n\t---env vars" +
+    "\n\tdebug                   : " + debug +
+    "\n\tmodule_loading_messages : " + module_loading_messages +
+    "\n\tmodule_verification     : " + module_verification +
+    "\n\tmodules_enabled         : " + modules_enabled +
+    "\n\tsoft_reload             : " + soft_reload +
     "\n");
 }
 
@@ -204,8 +215,16 @@ function config_ctl(element, operation, context) {
       break;
     case "debug":
       debug = operation;
-      if (operation) context.echo(log_marker + yellow("You have enabled the debug element. Verifications checks have been disabled. (you should only do this if you know what you are doing)"));
-      console.debug(log_level_debug + "Debugging enabled.");
+      if (operation){
+        context.echo(log_marker + yellow("You have enabled the debug element. Verifications checks have been disabled. (you should only do this if you know what you are doing)"));
+        console.debug(log_level_debug + "Debugging enabled.");
+      } else console.debug(log_marker + "Debugging disabled");
+
+      break;
+    case "soft_reload":
+      soft_reload = operation;
+      context.echo(log_marker + "soft_reload was set to " + operation)
+      if (debug) console.debug(log_level_debug + "soft_reload was set to " + operation);
       break;
     default:
       context.error("[error] '" + element + "' is not a config element.");

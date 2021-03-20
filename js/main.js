@@ -13,7 +13,9 @@ async function loadScript(url, context) {
     if (module_loading_messages)
       context.echo("[wpcs] " + green("Loaded module, running..."));
     modules_fetched++;
+    if(debug) console.debug(log_level_debug + "--------START MODULE CONSOLE OUTPUT--------");
     run(context);
+    if(debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
     document.getElementById(url).remove();
   });
 }
