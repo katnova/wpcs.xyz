@@ -132,7 +132,7 @@ function info(context) {
     "\n\t---Module Stats" +
     "\n\tModules lang            : " + module_language +
     "\n\tModules fetched         : " + modules_fetched +
-    "\n\tTotal Processing Time   : " + (processing_time * 1000) + "s" +
+    "\n\tTotal Processing Time   : " + (processing_time / 1000) + "s" +
     "\n\n\t---env vars" +
     "\n\tdebug                   : " + debug +
     "\n\tmodule_loading_messages : " + module_loading_messages +
