@@ -60,7 +60,7 @@ jQuery(function ($) {
       config_ctl(config, true, this);
     },
     reload: function () {
-      start(this, dots);
+      start(this, spinner.dots);
       window.location.reload(!soft_reload);
     },
     load: function (module) {
