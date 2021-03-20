@@ -1426,7 +1426,7 @@ function start(term, spinner) {
   function set() {
     let text = spinner.frames[i++ % spinner.frames.length];
     term.set_prompt("Working " + text);
-  };
+  }
   prompt = term.get_prompt();
   term.find('.cursor').hide();
   set();
