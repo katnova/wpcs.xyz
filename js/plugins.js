@@ -102,6 +102,7 @@ function man(context) {
     "\n 'image <url>' : Fetch a image from a URL and display it in the console." +
     "\n 'load <module>' : Download an run a registered module in browser from the modules server." +
     "\n '[enable/disable] [modules | module_loading_messages | soft_reload | debug]' : enable or disable options in the config file. " +
+    "\n 'info' : Get session information" +
     "\n 'reload' : Reload the page (depends on soft_reload for type)" +
     "\n 'about' : Get information about wcps.xyz" +
     "\n 'github' : Open the GitHub repo for wcps.xyz " +
