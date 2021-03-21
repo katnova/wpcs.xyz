@@ -28,51 +28,42 @@ jQuery(function ($) {
   $('body').terminal({
     man: function () {
       man(this);
-    },
-    help: function () {
+    }, help: function () {
       man(this);
-    },
-    image: function (url) {
+    }, image: function (url) {
       return fetch_image(url);
-    },
-    save: function (url, name) {
+    }, save: function (url, name) {
       save(this, url, name)
-    },
-    github: function () {
+    }, github: function () {
       github(this);
-    },
-    info: function () {
+    }, info: function () {
       info(this);
-    },
-    about: function () {
+    }, about: function () {
       info(this);
-    },
-    disable: function (config) {
+    }, disable: function (config) {
       config_ctl(config, false, this);
-    },
-    enable: function (config) {
+    }, enable: function (config) {
       config_ctl(config, true, this);
-    },
-    reload: function () {
+    }, reload: function () {
       start(this, spinner.dots);
       window.location.reload(!soft_reload);
-    },
-    verify: function (what) {
+    }, module: function (module) {
+      retrieveRegistryEntry(module, this);
+    }, verify: function (what) {
       switch (what) {
         case "scripts":
-          if(module_loading_messages === false){
+          if (module_loading_messages === false) {
             module_loading_messages = true;
             verifyLoadedScripts(this);
             module_loading_messages = false;
-          }else{
+          } else {
             verifyLoadedScripts(this);
           }
           break;
         default:
           this.error("Unknown option: " + what);
       }
-    },
-    load: function (module) {
+    }, load: function (module) {
       if (modules_enabled) {
         start(this, spinner.dots);
         const url = buildModuleURL(module);
@@ -107,14 +98,15 @@ jQuery(function ($) {
 
 function man(context) {
   context.echo("\nCommands: " +
-    "\n 'image <url>' : Fetch a image from a URL and display it in the console." +
-    "\n 'load <module>' : Download an run a registered module in browser from the modules server." +
-    "\n 'verify scripts' : Verify that currently loaded scripts are known." +
+    "\n 'image <url>'     : Fetch a image from a URL and display it in the console." +
+    "\n 'load <module>'   : Download an run a registered module in browser from the modules server." +
+    "\n 'module <module>' : Get the registry information about a given module." +
+    "\n 'verify scripts'  : Verify that currently loaded scripts are known." +
     "\n '[enable/disable] [modules | module_loading_messages | soft_reload | debug]' : enable or disable options in the config file. " +
-    "\n 'info' : Get session information" +
-    "\n 'reload' : Reload the page (depends on soft_reload for type)" +
-    "\n 'about' : Get information about wcps.xyz" +
-    "\n 'github' : Open the GitHub repo for wcps.xyz " +
+    "\n 'info'            : Get session information" +
+    "\n 'reload'          : Reload the page (depends on soft_reload for type)" +
+    "\n 'about'           : Get information about wcps.xyz" +
+    "\n 'github'          : Open the GitHub repo for wcps.xyz " +
     "\n");
 }
 
@@ -242,5 +234,30 @@ function refreshPings() {
       console.log("ERR on ping remote: https://wpcs.xyz")
       wpcs_ping = data + "ms with " + err;
     } else wpcs_ping = data + "ms";
+  });
+}
+
+function retrieveRegistryEntry(module, context) {
+  start(context, spinner.dots2);
+  jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
+    const json = JSON.parse(data);
+    stop(context, spinner.dots2);
+    try {
+      context.echo(
+        "\n--Module Information" +
+        "\n\tModule ID     : " + json.registry_entry.id +
+        "\n\tAuthor        : " + json.registry_entry.author +
+        "\n\tDonate        : " + json.registry_entry.donate +
+        "\n\tVersion       : " + json.registry_entry.version +
+        "\n\tDependencies  : " + json.registry_entry.dependencies +
+        "\n\tTags          : " + json.registry_entry.tags +
+        "\n\tVerified      : " + json.registry_entry.verified +
+        "\n\tVerified Host : " + json.registry_entry.verified_host +
+        "\n\tWeb location  : " + json.registry_entry.web_location +
+        "\n\tSize (bytes)  : " + json.registry_entry.size +
+        "\n");
+    } catch (e) {
+      context.error("Module does not exist in registry.");
+    }
   });
 }

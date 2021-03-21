@@ -3,7 +3,7 @@ const module_repo = "https://storage.wpcs.xyz";
 const module_repo_dir = "/modules/";
 const module_language = ".js";
 const module_registry = "https://api.wpcs.xyz";
-const module_registry_dir = "/registry/";
+const module_registry_dir = "/registry";
 const acsii_logo =
   '           (         (        )     )    )  \n' +
   ' (  (      )\\ )  (   )\\ )  ( /(  ( /( ( /(  \n' +
@@ -40,4 +40,5 @@ const authorized_scripts = [
   "https://wpcs.xyz/js/config.js",
   "https://wpcs.xyz/js/plugins.js",
   "https://wpcs.xyz/js/main.js",
-  "https://wpcs.xyz/js/pkg_modules/spinner.js"];
+  "https://wpcs.xyz/js/pkg_modules/spinner.js",
+  "https://uppkg.com/axios/dist/axios.min.js"];
