@@ -13,9 +13,13 @@ async function loadScript(url, context) {
     if (module_loading_messages)
       context.echo("[wpcs] " + green("Loaded module, running..."));
     modules_fetched++;
-    if(debug) console.debug(log_level_debug + "--------START MODULE CONSOLE OUTPUT--------");
-    run(context);
-    if(debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
+    if (debug) console.debug(log_level_debug + "--------START MODULE CONSOLE OUTPUT--------");
+    try {
+      run(context);
+    } catch (e) {
+      context.echo("Caught fatal module error: " + e);
+    }
+    if (debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
     document.getElementById(url).remove();
   });
 }
@@ -27,7 +31,7 @@ async function loadScript(url, context) {
  */
 
 function loadExternalScript(src) {
-  if(debug) console.debug(log_level_debug + "Loading external script from: " + src);
+  if (debug) console.debug(log_level_debug + "Loading external script from: " + src);
   return new Promise((resolve, reject) => {
     const scriptTag = document.createElement('script');
     scriptTag.type = 'text/javascript';
@@ -35,7 +39,7 @@ function loadExternalScript(src) {
     scriptTag.id = src;
     scriptTag.onload = () => resolve();
     document.body.appendChild(scriptTag);
-    if(debug) console.debug(log_level_debug + "Added script tag to body: " + new String(scriptTag));
+    if (debug) console.debug(log_level_debug + "Added script tag to body: " + new String(scriptTag));
   });
 }
 
@@ -92,11 +96,3 @@ function ifUrlExist(url, callback) {
 function buildModuleURL(module) {
   return module_repo + module_repo_dir + module + module_language;
 }
-
-/**
- ****************************
- *       Get latency        *
- ****************************
- */
-
-
