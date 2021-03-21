@@ -141,9 +141,9 @@ function checkLoadedScripts(context) {
 function resolve_module(context) {
   if (debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
   if (debug) console.debug(log_level_debug + "Cleaning up post module run...");
-  if(module_loading_messages) context.echo(log_marker + "Cleaning up module...");
+  if (module_loading_messages) context.echo(log_marker + "Cleaning up module...");
   removeTempScripts();
-  if(module_loading_messages) context.echo(log_marker + "Verifying clean-up....")
+  if (module_loading_messages) context.echo(log_marker + "Verifying clean-up....")
   verifyLoadedScripts(context);
 }
 
@@ -152,7 +152,12 @@ function resolve_module(context) {
  * @param context
  */
 function verifyLoadedScripts(context) {
-  if(module_loading_messages) context.echo(log_marker + "Checking loaded scripts...");
-  if (checkLoadedScripts(context)) if(module_loading_messages) context.echo(log_marker + green("All loaded scripts are ok."));
-  else context.echo(log_marker + red("Unknown scripts found after module unload, if you don't recognise them, please reload the page."));
+  if (module_loading_messages) context.echo(log_marker + "Checking loaded scripts...");
+  if (checkLoadedScripts(context)) {
+    if (module_loading_messages) {
+      context.echo(log_marker + green("All loaded scripts are ok."));
+    }
+  } else {
+    context.echo(log_marker + red("Unknown scripts found after module unload, if you don't recognise them, please reload the page."));
+  }
 }
