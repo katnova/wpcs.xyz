@@ -60,7 +60,13 @@ jQuery(function ($) {
     verify: function (what) {
       switch (what) {
         case "scripts":
-          verifyLoadedScripts(this);
+          if(module_loading_messages === false){
+            module_loading_messages = true;
+            verifyLoadedScripts(this);
+            module_loading_messages = false;
+          }else{
+            verifyLoadedScripts(this);
+          }
           break;
         default:
           this.error("Unknown option: " + what);
