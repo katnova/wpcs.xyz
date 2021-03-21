@@ -15,7 +15,7 @@ wpcs.xyz is a website feturing a jQuery terminal. This website is an online term
 <br>
 This site is being built on a modules, runnable bits of JavaScript that are fetched from a remote server.
 <br><br>
-###Building a module
+### Building a module
 Example module:
 ```js
 function run(context) { //context is the terminal that will be passed to this module. This module will run until this function resolves
