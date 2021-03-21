@@ -7,7 +7,6 @@ let loadedScripts = [];
  * @param args command arguments
  */
 async function loadScript(url, context) {
-  loadedScripts.push(url);
   await loadExternalScript(url).then(() => {
     const {dots} = spinner;
     stop(context, spinner["dots"]);
@@ -31,7 +30,8 @@ async function loadScript(url, context) {
  */
 
 function loadExternalScript(src) {
-  if (debug) console.debug(log_level_debug + "Loading external script from: " + src);
+  if (debug) console.debug(log_level_debug + "Loading temporary external script from: " + src);
+  loadedScripts.push(src);
   return new Promise((resolve, reject) => {
     const scriptTag = document.createElement('script');
     scriptTag.type = 'text/javascript';
@@ -138,7 +138,7 @@ function checkLoadedScripts(context) {
  * Mathod modules call upon exit to clean up loaded scripts.
  * @param context terminal
  */
-function resolve_module(context){
+function resolve_module(context) {
   if (debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
   removeTempScripts();
   verifyLoadedScripts(context);
@@ -150,6 +150,6 @@ function resolve_module(context){
  */
 function verifyLoadedScripts(context) {
   context.echo(log_marker + "Checking loaded scripts...");
-  if(checkLoadedScripts(context)) context.echo(log_marker + green("All loaded scripts are ok."));
+  if (checkLoadedScripts(context)) context.echo(log_marker + green("All loaded scripts are ok."));
   else context.echo(log_marker + red("Unknown scripts found, if you don't recognise them, please reload the page."));
 }
