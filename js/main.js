@@ -123,7 +123,7 @@ function checkLoadedScripts(context) {
     .filter(s => s.src)
     .map(s => s.src);
   if (!debug)
-    for (let i = 0; i < jsFilePaths.length; i++)
+    for (let i = 0; i < jsFilePaths.length; i++) {
       if (!authorized_scripts.includes(jsFilePaths[i])) {
         context.echo(log_level_warn + red("Unauthorized loaded script found. src: " + jsFilePaths[i]));
         if (debug) console.debug(log_level_warn + "Unauthorized loaded script found: " + jsFilePaths[i]);
@@ -131,6 +131,7 @@ function checkLoadedScripts(context) {
       } else {
         if (debug) console.debug(log_level_debug + "Authorized script found: " + jsFilePaths[i]);
       }
+    }
   return res;
 }
 
