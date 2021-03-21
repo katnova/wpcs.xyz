@@ -7,6 +7,7 @@ let loadedScripts = [];
  * @param args command arguments
  */
 async function loadScript(url, context) {
+  loadedScripts.push(url);
   await loadExternalScript(url).then(() => {
     const {dots} = spinner;
     stop(context, spinner["dots"]);
@@ -19,8 +20,7 @@ async function loadScript(url, context) {
     } catch (e) {
       context.echo("Caught fatal module error: " + e);
     }
-    if (debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
-    document.getElementById(url).remove();
+
   });
 }
 
@@ -41,6 +41,20 @@ function loadExternalScript(src) {
     document.body.appendChild(scriptTag);
     if (debug) console.debug(log_level_debug + "Added script tag to body: " + new String(scriptTag));
   });
+}
+
+/**
+ * Unload all loaded temp scripts.
+ */
+function removeTempScripts() {
+  for (let i = 0; i < loadedScripts.length; i++)
+    try {
+      document.getElementById(loadedScripts[i]).remove();
+      if (debug) console.debug(log_level_debug + "Removed script with ID: " + loadedScripts[i]);
+    } catch (e) {
+      if (debug) console.debug(log_level_debug + "Failed to unload script at position " + i);
+    }
+  loadedScripts = [];
 }
 
 /**
@@ -95,4 +109,47 @@ function ifUrlExist(url, callback) {
 
 function buildModuleURL(module) {
   return module_repo + module_repo_dir + module + module_language;
+}
+
+/**
+ * Check if loaded scripts are authorized to be so.
+ * @param context
+ * @return res returns false if there is an unauthorized script loaded, (may be a bug, or malicious code)
+ */
+function checkLoadedScripts(context) {
+  let res = true;
+  let jsFilePaths = Array.prototype.slice
+    .apply(document.querySelectorAll('script'))
+    .filter(s => s.src)
+    .map(s => s.src);
+  if (!debug)
+    for (let i = 0; i < jsFilePaths.length; i++)
+      if (!authorized_scripts.includes(jsFilePaths[i])) {
+        context.echo(log_level_warn + red("Unauthorized loaded script found. src: " + jsFilePaths[i]));
+        if (debug) console.debug(log_level_warn + "Unauthorized loaded script found: " + jsFilePaths[i]);
+        res = false;
+      } else {
+        if (debug) console.debug(log_level_debug + "Authorized script found: " + jsFilePaths[i]);
+      }
+  return res;
+}
+
+/**
+ * Mathod modules call upon exit to clean up loaded scripts.
+ * @param context terminal
+ */
+function resolve_module(context){
+  if (debug) console.debug(log_level_debug + "---------END MODULE CONSOLE OUTPUT---------");
+  removeTempScripts();
+  verifyLoadedScripts(context);
+}
+
+/**
+ * Verify loaded scripts against known scripts.
+ * @param context
+ */
+function verifyLoadedScripts(context) {
+  context.echo(log_marker + "Checking loaded scripts...");
+  if(checkLoadedScripts(context)) context.echo(log_marker + green("All loaded scripts are ok."));
+  else context.echo(log_marker + red("Unknown scripts found, if you don't recognise them, please reload the page."));
 }

@@ -1418,6 +1418,11 @@ let spinner = {
 };
 let i;
 
+/**
+ * start a working spinner
+ * @param term context terminal
+ * @param spinner spinner type
+ */
 function start(term, spinner) {
   if (debug) console.debug(log_level_debug + "Started working spinner.");
   animation = true;
@@ -1432,6 +1437,12 @@ function start(term, spinner) {
   set();
   timer = setInterval(set, spinner.interval);
 }
+
+/**
+ * stop a working spinner
+ * @param term context terminal with working spinner
+ * @param spinner spinner type
+ */
 
 function stop(term, spinner) {
   if (debug) console.debug(log_level_debug + "Stopped working spinner.");

@@ -63,12 +63,21 @@ jQuery(function ($) {
       start(this, spinner.dots);
       window.location.reload(!soft_reload);
     },
+    verify: function (what) {
+      switch (what) {
+        case "scripts":
+          verifyLoadedScripts(this);
+          break;
+          default:
+            this.error("Unknown option: " + what);
+      }
+    },
     load: function (module) {
       if (modules_enabled) {
         start(this, spinner.dots);
         const url = buildModuleURL(module);
         const startProcTime = Date.now();
-        if(debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
+        if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
         ifUrlExist(url, (resu) => {
           if (resu) loadScript(url, this).then(r => {
             if (module_loading_messages)
@@ -217,7 +226,7 @@ function config_ctl(element, operation, context) {
       break;
     case "debug":
       debug = operation;
-      if (operation){
+      if (operation) {
         context.echo(log_marker + yellow("You have enabled the debug element. Verifications checks have been disabled. (you should only do this if you know what you are doing)"));
         console.debug(log_level_debug + "Debugging enabled.");
       } else console.debug(log_marker + "Debugging disabled");
