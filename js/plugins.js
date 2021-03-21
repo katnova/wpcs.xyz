@@ -26,18 +26,12 @@
 // Place any jQuery/helper plugins in here.
 jQuery(function ($) {
   $('body').terminal({
-    //local compiler commands
-    js: function (command) {
-      parseJS(this, command);
-    },
-    //Help commands
     man: function () {
       man(this);
     },
     help: function () {
       man(this);
     },
-    //image commands
     image: function (url) {
       return fetch_image(url);
     },
@@ -68,8 +62,8 @@ jQuery(function ($) {
         case "scripts":
           verifyLoadedScripts(this);
           break;
-          default:
-            this.error("Unknown option: " + what);
+        default:
+          this.error("Unknown option: " + what);
       }
     },
     load: function (module) {
@@ -164,28 +158,6 @@ function fetch_image(url) {
     img.on('load', () => resolve(img));
     img.on('error', reject);
   });
-}
-
-/**
- * Parse literal JS with window.eval();
- * @param context termnial for output.
- * @param command literal JS to parse.
- */
-function parseJS(context, command) {
-  if (debug) console.debug(log_level_debug + "parseJS: eval(" + command + ")");
-  if (command !== '') {
-    try {
-      let result = window.eval(command);
-      if (debug) console.debug(log_level_debug + "parseJS: result of eval(" + command + ") -> " + new String(result));
-      if (result !== undefined) context.echo(new String(result));
-    } catch (e) {
-      context.error(new String(e));
-      if (debug) console.debug(log_level_debug + "parseJS: error on eval(" + command + "), error: " + new String(e));
-    }
-  } else {
-    if (debug) console.debug(log_level_debug + "Ignoring blank command...");
-    context.echo('');
-  }
 }
 
 /**
