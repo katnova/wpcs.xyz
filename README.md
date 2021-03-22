@@ -18,12 +18,37 @@ This site is being built on a modules, runnable bits of JavaScript that are fetc
 ### Building a module
 Example module:
 ```js
-function run(context) { //context is the terminal that will be passed to this module. This module will run until this function resolves
-    context.push(function (command) { // Push a new prompt to the terminal
-        context.pop().history().enable(); //enable history for this input
-        context.echo(command); // .echo(); ouput's something out to the commandline.
-    }, {
-        prompt: 'input something: ' //Prompt text here.
-    });
+function run(context) {
+    context.echo("Echo Module (CTRL+D or type 'exit' to exit): ");
+    function loop() {
+        context.push(function (command) {
+            context.pop().history().enable();
+            if (command !== '') {
+                if (command === "exit") {
+                    context.echo(command); //echo whatever someone inputs
+                    resolve_module(context);
+                } else {
+                    try {
+                        context.echo("Do somthing");
+                        loop();
+                    } catch (e) {
+                        context.error(e);
+                        loop();
+                    }
+                }
+            } else {
+                context.error("Input cannot be blank.");
+                loop();
+            }
+        }, {
+            prompt: '> ',
+            keydown: function (e, context) {
+                if (e.which == 68 && e.ctrlKey) {
+                    resolve_module(context);
+                }
+            }
+        });
+    }
+    loop();
 }
 ```
