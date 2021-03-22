@@ -25,21 +25,18 @@ function run(context) {
             context.pop().history().enable();
             if (command !== '') {
                 if (command === "exit") {
-                    context.echo(command); //echo whatever someone inputs
                     resolve_module(context);
                 } else {
                     try {
-                        context.echo("Do somthing");
-                        loop();
+                        context.echo(command); //echo whatever someone inputs 
                     } catch (e) {
                         context.error(e);
-                        loop();
                     }
                 }
             } else {
                 context.error("Input cannot be blank.");
-                loop();
             }
+            loop();
         }, {
             prompt: '> ',
             keydown: function (e, context) {
