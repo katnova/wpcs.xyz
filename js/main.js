@@ -39,7 +39,7 @@ function loadExternalScript(src) {
     scriptTag.id = src;
     scriptTag.onload = () => resolve();
     document.body.appendChild(scriptTag);
-    if (debug) console.debug(log_level_debug + "Added script tag to body: " + new String(scriptTag));
+    if (debug) console.debug(log_level_debug + "Added script tag to body: ", scriptTag);
   });
 }
 
