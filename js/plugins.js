@@ -67,6 +67,8 @@ jQuery(function ($) {
       }
     }, load: function (module) {
       loadModule(module, this);
+    }, exit: function () {
+      window.close();
     }
   }, {
     greetings: acsii_logo,
@@ -94,6 +96,7 @@ function man(context) {
     "\n 'reload'          : Reload the page (depends on soft_reload for type)" +
     "\n 'about'           : Get information about wcps.xyz" +
     "\n 'github'          : Open the GitHub repo for wcps.xyz " +
+    "\n 'exit'            : Close the window." +
     "\n");
 }
 
