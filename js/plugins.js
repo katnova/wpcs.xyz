@@ -247,10 +247,9 @@ function retrieveRegistryEntry(module, context) {
 }
 
 function loadModule(module, context) {
-  start(context, spinner.dots);
-  jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
-    if (modules_enabled) {
-      start(context, spinner.dots);
+  if (modules_enabled) {
+    start(context, spinner.dots);
+    jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
       try {
         const url = data.registry_entry.web_location;
         const startProcTime = Date.now();
@@ -271,8 +270,9 @@ function loadModule(module, context) {
         context.error("Module does not exist.");
         if (debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
       }
-    } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
-  }).catch(e => {
-    context.error("[ERROR] Failed to query registry.")
-  });
+    }).catch(e => {
+      stop(context, spinner.dots);
+      context.error("[ERROR] Failed to query registry.")
+    });
+  } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
 }
