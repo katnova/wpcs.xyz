@@ -290,7 +290,7 @@ function list_modules(context) {
     context.echo("Registered Module List");
     for (let i = 0; i < data.length; i++)
       context.echo(
-        "\n--Module name:" + data[i].id +
+        "\n--Module name: " + data[i].id +
         "\n\tDescription : " + data[i].description + "" +
         "\n\tBeta        : " + data[i].beta + "" +
         "\n\tVerified    : " + data[i].verified);
