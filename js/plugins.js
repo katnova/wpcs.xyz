@@ -49,6 +49,8 @@ jQuery(function ($) {
       window.location.reload(!soft_reload);
     }, module: function (module) {
       retrieveRegistryEntry(module, this);
+    }, modules: function () {
+      list_modules(this);
     }, verify: function (what) {
       switch (what) {
         case "scripts":
@@ -85,6 +87,7 @@ function man(context) {
     "\n 'image <url>'     : Fetch a image from a URL and display it in the console." +
     "\n 'load <module>'   : Download an run a registered module in browser from the modules server." +
     "\n 'module <module>' : Get the registry information about a given module." +
+    "\n 'modules'         : List all modules available through the registry server." +
     "\n 'verify scripts'  : Verify that currently loaded scripts are known." +
     "\n '[enable/disable] [modules | module_loading_messages | soft_reload | debug]' : enable or disable options in the config file. " +
     "\n 'info'            : Get session information" +
@@ -278,4 +281,18 @@ function loadModule(module, context) {
       context.error("[ERROR] Failed to query registry.")
     });
   } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
+}
+
+function list_modules(context) {
+  start(context, spinner.dots);
+  jQuery.get("https://api.wpcs.xyz/registry.json", function (data, status) {
+    stop(context, spinner.dots);
+    const json_data = JSON.parse(data);
+    for (let i = 0; i < json_data.length; i++){
+      context.echo("\n\t" + json_data[i].id + " : " + json_data[i].description);
+    }
+  }).catch(e => {
+    context.error("[ERROR] Failed to fetch registry from api server.");
+    if(debug) console.debug(log_level_debug + "Failed to fetch registry from api server: ", e)
+  });
 }
