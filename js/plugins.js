@@ -247,12 +247,12 @@ function retrieveRegistryEntry(module, context) {
 }
 
 function loadModule(module, context) {
-  start(context, spinner.dots2);
+  start(context, spinner.dots);
   jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
     if (modules_enabled) {
       start(context, spinner.dots);
       try {
-        const url = res.registry_entry.web_location;
+        const url = data.registry_entry.web_location;
         const startProcTime = Date.now();
         if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
         ifUrlExist(url, (resu) => {
@@ -268,6 +268,7 @@ function loadModule(module, context) {
         });
       } catch (e) {
         stop(context, spinner.dots);
+        context.error("Module does not exist.");
         if (debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
       }
     } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
