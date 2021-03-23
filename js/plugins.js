@@ -287,9 +287,9 @@ function list_modules(context) {
   start(context, spinner.dots);
   jQuery.get("https://api.wpcs.xyz/registry.json", function (data, status) {
     stop(context, spinner.dots);
-    for (let i = 0; i < data.length; i++){
-      context.echo("\n\t" + data[i].id + " : " + data[i].description);
-    }
+    context.echo("Module Name : Description");
+    for (let i = 0; i < data.length; i++) context.echo("\t" + data[i].id + " : " + data[i].description);
+
   }).catch(e => {
     context.error("[ERROR] Failed to fetch registry from api server.");
     if(debug) console.debug(log_level_debug + "Failed to fetch registry from api server: ", e)
