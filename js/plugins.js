@@ -263,7 +263,7 @@ function loadModule(module, context) {
         ifUrlExist(url, (resu) => {
           if (resu) loadScript(url, context).then(r => {
             if (module_loading_messages)
-              context.echo(log_marker + green("Module unloaded."))
+              context.echo(log_marker + green("Module unloaded."));
             processing_time += Date.now() - startProcTime;
           });
           else {
@@ -287,9 +287,13 @@ function list_modules(context) {
   start(context, spinner.dots);
   jQuery.get("https://api.wpcs.xyz/registry.json", function (data, status) {
     stop(context, spinner.dots);
-    context.echo("Module Name : Description");
-    for (let i = 0; i < data.length; i++) context.echo("\t" + data[i].id + " : " + data[i].description);
-
+    context.echo("Registered Module List");
+    for (let i = 0; i < data.length; i++)
+      context.echo(
+        "\n--Module name:" + data[i].id +
+        "\n\tDescription : " + data[i].description + "" +
+        "\n\tBeta        : " + data[i].beta + "" +
+        "\n\tVerified    : " + data[i].verified);
   }).catch(e => {
     context.error("[ERROR] Failed to fetch registry from api server.");
     if(debug) console.debug(log_level_debug + "Failed to fetch registry from api server: ", e)
