@@ -231,6 +231,8 @@ function retrieveRegistryEntry(module, context) {
         "\n--Module Information" +
         "\n\tModule ID     : " + json.registry_entry.id +
         "\n\tAuthor        : " + json.registry_entry.author +
+        "\n\tIn Beta       : " + json.registry_entry.beta +
+        "\n\tDescription   : " + json.registry_entry.description +
         "\n\tDonate        : " + json.registry_entry.donate +
         "\n\tVersion       : " + json.registry_entry.version +
         "\n\tDependencies  : " + json.registry_entry.dependencies +
