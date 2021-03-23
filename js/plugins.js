@@ -287,9 +287,8 @@ function list_modules(context) {
   start(context, spinner.dots);
   jQuery.get("https://api.wpcs.xyz/registry.json", function (data, status) {
     stop(context, spinner.dots);
-    const json_data = JSON.parse(data);
     for (let i = 0; i < json_data.length; i++){
-      context.echo("\n\t" + json_data[i].id + " : " + json_data[i].description);
+      context.echo("\n\t" + data[i].id + " : " + data[i].description);
     }
   }).catch(e => {
     context.error("[ERROR] Failed to fetch registry from api server.");
