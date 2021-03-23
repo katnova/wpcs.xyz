@@ -64,6 +64,7 @@ jQuery(function ($) {
           this.error("Unknown option: " + what);
       }
     }, load: function (module) {
+      const context_redef = this;
       if (modules_enabled) {
         start(this, spinner.dots);
         //const url = buildModuleURL(module); //old, stupid method
@@ -88,7 +89,7 @@ jQuery(function ($) {
             if(debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
           }
         }).catch(e => {
-          stop(this, spinner.dots);
+          stop(context_redef, spinner.dots);
           this.error("Failed to get module information from the registry.");
        });
       } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
