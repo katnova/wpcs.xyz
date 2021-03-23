@@ -11,9 +11,9 @@ _(()((_|(_)_\ ((_|(_) ((_)\ )(_)|(_)
 ![CodeSize](https://img.shields.io/github/languages/code-size/Abstract-Programming/wpcs.xyz)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Abstract-Programming/wpcs.xyz)
 <br>
-wpcs.xyz is a website feturing a jQuery terminal. This website is an online terminal, for whatever, easter eggs or useful tools.
+wpcs.xyz is a site build around 'modules'. Allowing for useful tools to be loaded just in time, then discarded. Keeping the site lightweight. and versatile.
 <br>
-This site is being built on a modules, runnable bits of JavaScript that are fetched from a remote server.
+(yes this is done via dynamically loading scripts, at JIT, using document.body.appeandChild())
 <br><br>
 ### Building a module
 Example module:
@@ -28,7 +28,6 @@ function run(context) {
                     resolve_module(context);
                 } else {
                     try {
-                        context.echo(command); //echo whatever someone inputs 
                     } catch (e) {
                         context.error(e);
                     }
