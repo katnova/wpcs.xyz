@@ -66,19 +66,30 @@ jQuery(function ($) {
     }, load: function (module) {
       if (modules_enabled) {
         start(this, spinner.dots);
-        const url = buildModuleURL(module);
-        const startProcTime = Date.now();
-        if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
-        ifUrlExist(url, (resu) => {
-          if (resu) loadScript(url, this).then(r => {
-            if (module_loading_messages)
-              this.echo(log_marker + green("Module unloaded."))
-            processing_time += Date.now() - startProcTime;
-          });
-          else {
+        //const url = buildModuleURL(module); //old, stupid method
+        jQurey.get(module_registry + module_registry_dir + "?module=" + module, function (res, stat) {
+          try {
+            const url = res.registry_entry.web_location;
+            const startProcTime = Date.now();
+            if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
+            ifUrlExist(url, (resu) => {
+              if (resu) loadScript(url, this).then(r => {
+                if (module_loading_messages)
+                  this.echo(log_marker + green("Module unloaded."))
+                processing_time += Date.now() - startProcTime;
+              });
+              else {
+                stop(this, spinner.dots);
+                this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
+              }
+            });
+          }catch (e) {
             stop(this, spinner.dots);
-            this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
+            if(debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
           }
+        }).catch(e => {
+          stop(this, spinner.dots);
+          this.error("Failed to get module information from the registry.");
         });
       } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
     }
