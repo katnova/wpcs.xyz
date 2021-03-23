@@ -64,34 +64,7 @@ jQuery(function ($) {
           this.error("Unknown option: " + what);
       }
     }, load: function (module) {
-      const context_redef = this;
-      if (modules_enabled) {
-        start(this, spinner.dots);
-        //const url = buildModuleURL(module); //old, stupid method
-        $.get(module_registry + module_registry_dir + "?module=" + module, function (res, stat) {
-          try {
-            const url = res.registry_entry.web_location;
-            const startProcTime = Date.now();
-            if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
-            ifUrlExist(url, (resu) => {
-              if (resu) loadScript(url, this).then(r => {
-                if (module_loading_messages)
-                  this.echo(log_marker + green("Module unloaded."))
-                processing_time += Date.now() - startProcTime;
-              });
-              else {
-                stop(this, spinner.dots);
-                this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
-              }
-            });
-          }catch (e) {
-            stop(this, spinner.dots);
-            if(debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
-          }
-        }).catch(e => {
-          this.error("Failed to get module information from the registry.");
-       });
-      } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
+      loadModule(module, this);
     }
   }, {
     greetings: acsii_logo,
@@ -270,5 +243,35 @@ function retrieveRegistryEntry(module, context) {
     } catch (e) {
       context.error("Module does not exist in registry.");
     }
+  });
+}
+
+function loadModule(module, context) {
+  start(context, spinner.dots2);
+  jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
+    if (modules_enabled) {
+      start(context, spinner.dots);
+      try {
+        const url = res.registry_entry.web_location;
+        const startProcTime = Date.now();
+        if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
+        ifUrlExist(url, (resu) => {
+          if (resu) loadScript(url, context).then(r => {
+            if (module_loading_messages)
+              context.echo(log_marker + green("Module unloaded."))
+            processing_time += Date.now() - startProcTime;
+          });
+          else {
+            stop(context, spinner.dots);
+            this.error("Could not retrieve module: '" + module + "'. (does it exist?)");
+          }
+        });
+      } catch (e) {
+        stop(context, spinner.dots);
+        if (debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
+      }
+    } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
+  }).catch(e => {
+    context.error("[ERROR] Failed to query registry.")
   });
 }
