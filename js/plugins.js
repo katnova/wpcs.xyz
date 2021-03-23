@@ -261,6 +261,7 @@ function loadModule(module, context) {
       try {
         const json_data = JSON.parse(data);
         const url = json_data.registry_entry.web_location;
+        if(json_data.registry_entry.beta) context.echo(log_level_warn + yellow(module + "is in beta, and may break the terminal. Please keep this in mind when using this module."));
         const startProcTime = Date.now();
         if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
         ifUrlExist(url, (resu) => {
