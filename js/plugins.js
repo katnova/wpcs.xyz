@@ -251,7 +251,8 @@ function loadModule(module, context) {
     start(context, spinner.dots);
     jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
       try {
-        const url = data.registry_entry.web_location;
+        const json_data = JSON.parse(data);
+        const url = json_data.registry_entry.web_location;
         const startProcTime = Date.now();
         if (debug) console.debug(log_level_debug + "Loading module " + module + ", at " + startProcTime + ", from " + url);
         ifUrlExist(url, (resu) => {
