@@ -67,7 +67,7 @@ jQuery(function ($) {
       if (modules_enabled) {
         start(this, spinner.dots);
         //const url = buildModuleURL(module); //old, stupid method
-        jQurey.get(module_registry + module_registry_dir + "?module=" + module, function (res, stat) {
+        $.get(module_registry + module_registry_dir + "?module=" + module, function (res, stat) {
           try {
             const url = res.registry_entry.web_location;
             const startProcTime = Date.now();
@@ -90,7 +90,7 @@ jQuery(function ($) {
         }).catch(e => {
           stop(this, spinner.dots);
           this.error("Failed to get module information from the registry.");
-        });
+       });
       } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
     }
   }, {
