@@ -89,7 +89,6 @@ jQuery(function ($) {
             if(debug) console.debug(log_level_debug + "Failed to get module location and load it. Error: ", e);
           }
         }).catch(e => {
-          stop(context_redef, spinner.dots);
           this.error("Failed to get module information from the registry.");
        });
       } else this.echo(log_marker + yellow("Modules are disabled, enable them with `enable modules`"));
