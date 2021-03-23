@@ -11,10 +11,8 @@ _(()((_|(_)_\ ((_|(_) ((_)\ )(_)|(_)
 ![CodeSize](https://img.shields.io/github/languages/code-size/Abstract-Programming/wpcs.xyz)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Abstract-Programming/wpcs.xyz)
 <br>
-wpcs.xyz is a site build around 'modules'. Allowing for useful tools to be loaded just in time, then discarded. Keeping the site lightweight. and versatile.
+wpcs.xyz is a site build around 'modules'. Allowing for useful tools to be loaded just in time, then discarded. Keeping the site lightweight, and versatile.
 <br>
-(yes this is done via dynamically loading scripts, at JIT, using document.body.appeandChild())
-<br><br>
 ### Building a module
 Example module:
 ```js
