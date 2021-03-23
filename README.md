@@ -12,37 +12,3 @@ _(()((_|(_)_\ ((_|(_) ((_)\ )(_)|(_)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Abstract-Programming/wpcs.xyz)
 <br>
 wpcs.xyz is a site build around 'modules'. Allowing for useful tools to be loaded just in time, then discarded. Keeping the site lightweight, and versatile.
-<br>
-### Building a module
-Example module:
-```js
-function run(context) {
-    context.echo("Echo Module (CTRL+D or type 'exit' to exit): ");
-    function loop() {
-        context.push(function (command) {
-            context.pop().history().enable();
-            if (command !== '') {
-                if (command === "exit") {
-                    resolve_module(context);
-                } else {
-                    try {
-                    } catch (e) {
-                        context.error(e);
-                    }
-                }
-            } else {
-                context.error("Input cannot be blank.");
-            }
-            loop();
-        }, {
-            prompt: '> ',
-            keydown: function (e, context) {
-                if (e.which == 68 && e.ctrlKey) {
-                    resolve_module(context);
-                }
-            }
-        });
-    }
-    loop();
-}
-```
