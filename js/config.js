@@ -42,3 +42,4 @@ const authorized_scripts = [
   "https://wpcs.xyz/js/main.js",
   "https://wpcs.xyz/js/pkg_modules/spinner.js",
   "https://uppkg.com/axios/dist/axios.min.js"];
+let global_context;

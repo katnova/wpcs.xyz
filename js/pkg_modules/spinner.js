@@ -1424,7 +1424,7 @@ let i;
  * @param spinner spinner type
  */
 function start(term, spinner) {
-  if (debug) console.debug(log_level_debug + "Started working spinner. context: ", term);
+  if (debug) console.debug(log_level_debug + "Started working spinner.");
   animation = true;
   i = 0;
 
@@ -1445,7 +1445,7 @@ function start(term, spinner) {
  */
 
 function stop(term, spinner) {
-  if (debug) console.debug(log_level_debug + "Stopped working spinner. context: ", term);
+  if (debug) console.debug(log_level_debug + "Stopped working spinner.");
   // setTimeout(function () {
   clearInterval(timer);
   let frame = spinner.frames[i % spinner.frames.length];

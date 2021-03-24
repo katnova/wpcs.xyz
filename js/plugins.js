@@ -69,6 +69,8 @@ jQuery(function ($) {
       loadModule(module, this);
     }, exit: function () {
       window.close();
+    }, ec: function (){
+      global_context = this;
     }
   }, {
     greetings: acsii_logo,
