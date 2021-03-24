@@ -1,3 +1,6 @@
+let animation = false;
+let timer;
+let prompt;
 let spinner = {
   "dots": {
     "interval": 80,
