@@ -1,4 +1,3 @@
-//reverted
 (function () {
   let method;
   let noop = function () {
@@ -70,8 +69,6 @@ jQuery(function ($) {
       loadModule(module, this);
     }, exit: function () {
       window.close();
-    }, ec: function (){
-      global_context = this;
     }
   }, {
     greetings: acsii_logo,
@@ -144,7 +141,6 @@ function info(context) {
  */
 
 function fetch_image(url) {
-  if(debug) console.debug(log_level_debug + "Fethcing image from: " + url);
   return new Promise(function (resolve, reject) {
     const img = $('<img src="' + url + '"/>');
     img.on('load', () => resolve(img));
@@ -158,7 +154,6 @@ function fetch_image(url) {
  */
 
 function github(context) {
-  if(debug) console.debug(log_level_debug + "Opening github repo for wpcs.xyz");
   context.echo("Opening wpcs.xyz repo...");
   window.open(repo_link);
 }
@@ -171,7 +166,6 @@ function github(context) {
  */
 
 function config_ctl(element, operation, context) {
-  if(debug) console.debug(log_level_debug + "Config ctl called for option: " + element + ", operation: " + operation);
   switch (element) {
     case "modules":
       modules_enabled = operation;
@@ -212,7 +206,6 @@ function config_ctl(element, operation, context) {
  * Refresh ping information
  */
 function refreshPings() {
-  if(debug) console.debug(log_level_debug + "Refreshing pings...");
   const p = new Ping();
   p.ping(module_repo, function (err, data) {
     if (err) {
@@ -235,7 +228,6 @@ function refreshPings() {
 }
 
 function retrieveRegistryEntry(module, context) {
-  if(debug) console.debug(log_level_debug + "Retriving registry entry for module: " + module);
   start(context, spinner.dots2);
   jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
     const json = JSON.parse(data);
@@ -263,7 +255,6 @@ function retrieveRegistryEntry(module, context) {
 }
 
 function loadModule(module, context) {
-  if(debug) console.debug(log_level_debug + "Starting to load module: " + module);
   if (modules_enabled) {
     start(context, spinner.dots);
     jQuery.get(module_registry + module_registry_dir + "?module=" + module, function (data, status) {
@@ -297,7 +288,6 @@ function loadModule(module, context) {
 }
 
 function list_modules(context) {
-  if(debug) console.debug(log_level_debug + "Listing modules.");
   start(context, spinner.dots);
   jQuery.get("https://api.wpcs.xyz/registry.json", function (data, status) {
     stop(context, spinner.dots);
