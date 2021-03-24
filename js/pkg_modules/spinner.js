@@ -1,4 +1,3 @@
-//reverted
 let animation = false;
 let timer;
 let prompt;
