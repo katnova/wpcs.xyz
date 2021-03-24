@@ -1446,11 +1446,16 @@ function start(term, spinner) {
 
 function stop(term, spinner) {
   if (debug) console.debug(log_level_debug + "Stopped working spinner.");
-  // setTimeout(function () {
   clearInterval(timer);
-  let frame = spinner.frames[i % spinner.frames.length];
   term.set_prompt(term_prompt);
   animation = false;
   term.find('.cursor').show();
-  // }, 0);
+}
+
+function stop(term, spinner, l_prompt) {
+  if (debug) console.debug(log_level_debug + "Stopped working spinner.");
+  clearInterval(timer);
+  term.set_prompt(l_prompt);
+  animation = false;
+  term.find('.cursor').show();
 }
