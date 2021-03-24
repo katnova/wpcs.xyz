@@ -8,18 +8,11 @@ let loadedScripts = [];
  */
 async function loadScript(url, context) {
   await loadExternalScript(url).then(() => {
-    const {dots} = spinner;
-    stop(context, spinner["dots"]);
-    if (module_loading_messages)
-      context.echo("[wpcs] " + green("Loaded module, running..."));
+    stop(context, spinner.dots);
+    if (module_loading_messages) context.echo("[wpcs] " + green("Loaded module, running..."));
     modules_fetched++;
     if (debug) console.debug(log_level_debug + "--------START MODULE CONSOLE OUTPUT--------");
-    try {
-      run(context);
-    } catch (e) {
-      context.echo("Caught fatal module error: " + e);
-    }
-
+    try {run(context);} catch (e) {context.echo("Caught fatal module error: " + e);}
   });
 }
 
