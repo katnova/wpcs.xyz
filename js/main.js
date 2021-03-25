@@ -145,6 +145,8 @@ function resolve_module(context) {
   if (debug) console.debug(log_level_debug + "Cleaning up post module run...");
   if (module_loading_messages) context.echo(log_marker + "Cleaning up module...");
   removeTempScripts();
+  context.set_prompt(term_prompt);
+  if (debug) console.debug(log_level_debug + "Set terminal prompt to: ", term_prompt);
   if (module_loading_messages) context.echo(log_marker + "Verifying clean-up....")
   verifyLoadedScripts(context);
 }
