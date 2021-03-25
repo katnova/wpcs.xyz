@@ -1425,9 +1425,9 @@ let spinner_frame_counter;
  */
 function start(term, spinner) {
   if (debug) console.debug(log_level_debug + "Started working spinner.");
+  if (spinner_animation) console.error(log_level_warn + "Starting new spinner while another spinner is already active.")
   spinner_animation = true;
   spinner_frame_counter = 0;
-
   function set() {
     let text = spinner.frames[spinner_frame_counter++ % spinner.frames.length];
     term.set_prompt("Working " + text);
@@ -1450,6 +1450,14 @@ function stop(term, spinner, overrideSavedPrompt) {
   if (debug) console.debug(log_level_debug + "Stopped working spinner.");
   clearInterval(spinner_timer);
   if (overrideSavedPrompt) term.set_prompt(term_prompt); else term.set_prompt(prompt);
+  spinner_animation = false;
+  term.find('.cursor').show();
+}
+
+function special_stop(term, new_prompt) {
+  if (debug) console.debug(log_level_debug + "Stopped working spinner.");
+  clearInterval(spinner_timer);
+  term.set_prompt(new_prompt);
   spinner_animation = false;
   term.find('.cursor').show();
 }
