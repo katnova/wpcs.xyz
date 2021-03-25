@@ -13,8 +13,7 @@ const acsii_logo =
   '\\ \\((_)/ /| _ ((/ __/ __| \\ \\/ | \\ / /_  /  \n' +
   ' \\ \\/\\/ / |  _/| (__\\__ \\_ >  < \\ V / / /   \n' +
   '  \\_/\\_/  |_|   \\___|___(_)_/\\_\\ |_| /___|  \n' +
-  '                                            \n' +
-  'This site is undergoing live maintenance things may break :/';
+  '                                            \n';
 const log_level_debug = "[DEBUG] ";
 const log_level_info = "[INFO] ";
 const log_level_warn = "[WARN] ";
