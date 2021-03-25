@@ -32,10 +32,10 @@ let wpcs_ping, storage_wpcs_ping, api_wpcs_ping;
 let soft_reload = false;
 const authorized_scripts = [
   "https://www.googletagmanager.com/gtag/js?id=G-VJXM9LTMFX",
-  "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js",
-  "https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js",
-  "https://unpkg.com/jquery.terminal/js/autocomplete_menu.js",
-  "https://cdn.jsdelivr.net/gh/alfg/ping.js@0.2.2/dist/ping.min.js",
+  "https://storage.wpcs.xyz/resources/ajax/libs/jquery/3.5.1/jquery.min.js",
+  "https://storage.wpcs.xyz/resources/alfg/ping.js@0.2.2/dist/ping.min.js",
+  "https://storage.wpcs.xyz/resources/npm/jquery.terminal/js/jquery.terminal.min.js",
+  "https://storage.wpcs.xyz/resources/npm/jquery.terminal/js/autocomplete_menu.min.js",
   "https://wpcs.xyz/js/vendor/modernizr-3.11.2.min.js",
   "https://wpcs.xyz/js/pkg_modules/colors.min.js",
   "https://wpcs.xyz/js/config.js",
