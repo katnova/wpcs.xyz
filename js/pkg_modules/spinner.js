@@ -1,5 +1,5 @@
-let animation = false;
-let timer;
+let spinner_animation = false;
+let spinner_timer;
 let prompt;
 let spinner = {
   "dots": {
@@ -1416,7 +1416,7 @@ let spinner = {
     ]
   }
 };
-let i;
+let spinner_frame_counter;
 
 /**
  * start a working spinner
@@ -1425,32 +1425,31 @@ let i;
  */
 function start(term, spinner) {
   if (debug) console.debug(log_level_debug + "Started working spinner.");
-  animation = true;
-  i = 0;
+  spinner_animation = true;
+  spinner_frame_counter = 0;
 
   function set() {
-    let text = spinner.frames[i++ % spinner.frames.length];
+    let text = spinner.frames[spinner_frame_counter++ % spinner.frames.length];
     term.set_prompt("Working " + text);
   }
   prompt = term.get_prompt();
   term.find('.cursor').hide();
   set();
-  timer = setInterval(set, spinner.interval);
+  spinner_timer = setInterval(set, spinner.interval);
 }
 
 /**
  * stop a working spinner
  * @param term context terminal with working spinner
  * @param spinner spinner type
+ * @param overrideSavedPrompt use master prompt or use last saved prompt
  */
 
-function stop(term, spinner) {
+function stop(term, spinner, overrideSavedPrompt) {
+  if(overrideSavedPrompt === null || overrideSavedPrompt === undefined) overrideSavedPrompt = false;
   if (debug) console.debug(log_level_debug + "Stopped working spinner.");
-  // setTimeout(function () {
-  clearInterval(timer);
-  let frame = spinner.frames[i % spinner.frames.length];
-  term.set_prompt(term_prompt);
-  animation = false;
+  clearInterval(spinner_timer);
+  if (overrideSavedPrompt) term.set_prompt(term_prompt); else term.set_prompt(prompt);
+  spinner_animation = false;
   term.find('.cursor').show();
-  // }, 0);
 }
