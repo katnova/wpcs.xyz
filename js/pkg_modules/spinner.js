@@ -1081,10 +1081,12 @@ function start(term, spinner) {
     );
   spinner_animation = true;
   spinner_frame_counter = 0;
+
   function set() {
     let text = spinner.frames[spinner_frame_counter++ % spinner.frames.length];
     term.set_prompt("Working " + text);
   }
+
   prompt = term.get_prompt();
   term.find(".cursor").hide();
   set();

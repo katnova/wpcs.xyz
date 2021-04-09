@@ -103,7 +103,14 @@ jQuery(function ($) {
         }
       },
       load: function (module) {
-        loadModule(module, this);
+        if (
+          debug == true &&
+          isValidURL(module) &&
+          ifUrlExist(module, (res) => {
+            if (res) loadScript(module, this);
+          })
+        );
+        else loadModule(module, this);
       },
       exit: function () {
         window.close();
@@ -463,4 +470,11 @@ function list_modules(context) {
           e
         );
     });
+}
+
+function isValidURL(string) {
+  const res = string.match(
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+  );
+  return res !== null;
 }
