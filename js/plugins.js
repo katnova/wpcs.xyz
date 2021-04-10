@@ -110,7 +110,7 @@ jQuery(function ($) {
             if (res) loadScript(module, this);
           })
         );
-        else loadModule(module, this);
+        else if (debug !== true) loadModule(module, this);
       },
       exit: function () {
         window.close();
