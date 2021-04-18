@@ -3,13 +3,9 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
-
-# THANKS
-
-    <name>
+    Abstract-Programming -- developer -- @akat#3611
 
 # TECHNOLOGY COLOPHON
 
-    CSS3, HTML5
+    CSS3, HTML5, JS, AXIOS, jQuery Terminal, Google Tag Manager,
     Apache Server Configs, jQuery, Modernizr, Normalize.css

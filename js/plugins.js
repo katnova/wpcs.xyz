@@ -38,6 +38,8 @@
       console[method] = noop;
     }
   }
+  $("google_translate_element").hide();
+
   console.log(
     acsii_logo +
       "Someones poking around in the code, maybe go check out the GitHub repo?\n" +
@@ -107,7 +109,10 @@ jQuery(function ($) {
           debug == true &&
           isValidURL(module) &&
           ifUrlExist(module, (res) => {
-            if (res) loadScript(module, this);
+            if (res) {
+              return true;
+              loadScript(module, this);
+            } else return false;
           })
         );
         else if (debug !== true) loadModule(module, this);
