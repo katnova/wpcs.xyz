@@ -110,8 +110,8 @@ jQuery(function ($) {
           isValidURL(module) &&
           ifUrlExist(module, (res) => {
             if (res) {
-              return true;
               loadScript(module, this);
+              return true;
             } else return false;
           })
         );
