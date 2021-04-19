@@ -340,6 +340,7 @@ function retrieveRegistryEntry(module, context) {
   jQuery.get(
     module_registry + module_registry_dir + "?module=" + module,
     function (data, status) {
+      if (debug) console.debug(log_level_debug + "Registry entry retrival status: ", status);
       const json = JSON.parse(data);
       stop(context, spinner.dots2);
       try {
@@ -385,6 +386,7 @@ function loadModule(module, context) {
       .get(
         module_registry + module_registry_dir + "?module=" + module,
         function (data, status) {
+          if (debug) console.debug(log_level_debug + "Module load status: ", status);
           try {
             const json_data = JSON.parse(data);
             const url = json_data.registry_entry.web_location;
@@ -411,6 +413,7 @@ function loadModule(module, context) {
             ifUrlExist(url, (resu) => {
               if (resu)
                 loadScript(url, context).then((r) => {
+                  if (debug) console.debug(log_level_debug + "loadScript res: ", r);
                   if (module_loading_messages)
                     context.echo(log_marker + green("Module unloaded."));
                   processing_time += Date.now() - startProcTime;
@@ -437,6 +440,7 @@ function loadModule(module, context) {
         }
       )
       .catch((e) => {
+        if (debug) console.debug(log_level_debug + "Registry query error: ", e);
         stop(context, spinner.dots);
         context.error("[ERROR] Failed to query registry.");
       });
@@ -451,6 +455,7 @@ function list_modules(context) {
   start(context, spinner.dots);
   jQuery
     .get("https://api.wpcs.xyz/registry.json", function (data, status) {
+      if (debug) console.log(log_level_debug + "Registry fetch status: ", status);
       stop(context, spinner.dots);
       context.echo("Registered Module List");
       for (let i = 0; i < data.length; i++)
