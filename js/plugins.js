@@ -105,7 +105,7 @@ jQuery(function ($) {
         }
       }, setGlobalContext: function() {
         if (debug) {
-          context.echo(yellow("Setting global context. You should only do this if you know what you are doing."));
+          this.echo(yellow("Setting global context. You should only do this if you know what you are doing."));
           global_context = this; 
         }
       },
